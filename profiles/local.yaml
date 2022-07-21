@@ -1,0 +1,14 @@
+# if only 1 is set, use it for both tracking and registry
+tracking_uri: "sqlite:///metadata/mlflow/mlruns.db"
+registry_uri: "sqlite:///metadata/mlflow/mlruns.db"
+
+# Use a small sample from the TLC Trip Record Dataset for exploring the MLflow Regression Pipeline
+# (https://www1.nyc.gov/site/tlc/about/tlc-trip-record-data.page)
+INGEST_DATA_LOCATION: "./data/sample.parquet"
+# Use a larger section of the TLC Trip Record Dataset for training higher-fidelity models
+# INGEST_DATA_LOCATION: "https://nyc-tlc.s3.amazonaws.com/trip+data/yellow_tripdata_2022-01.parquet"
+# Specify the format of the dataset
+INGEST_DATA_FORMAT: parquet
+OUTPUT_DATA_LOCATION: "./data/sample_output.parquet"
+OUTPUT_DATA_FORMAT: parquet
+

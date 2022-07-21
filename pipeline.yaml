@@ -1,0 +1,39 @@
+# `pipeline.yaml` is the main configuration file for an MLflow Pipeline.
+# Required pipeline parameters should be defined in this file with either concrete values or
+# variables such as {{ INGEST_DATA_LOCATION }}.
+
+# Variables must be dereferenced in a profile YAML file, located under `profiles/`.
+# See `profiles/local.yaml` for example usage. One may switch among profiles quickly by
+# providing a profile name such as `local` in the Pipeline object constructor:
+# `p = Pipeline(profile="local")`
+#
+# NOTE: YAML does not support tabs for indentation. Please use spaces and ensure that all YAML
+# files are properly formatted.
+
+template: "batch_scoring/v1"
+# Specifies the dataset to score
+data:
+  # Dataset locations on the local filesystem are supported, as well as HTTP(S) URLs and
+  # any other remote locations resolvable by MLflow, such as those listed in
+  # https://mlflow.org/docs/latest/tracking.html#artifact-stores
+  location: {{INGEST_DATA_LOCATION}}
+  # Beyond `parquet` datasets, the `spark_sql` and `delta` formats are also natively supported for
+  # use with Spark
+  format: {{INGEST_DATA_FORMAT|default('parquet')}}
+  # Datasets with other formats, including `csv`, can be used by implementing and
+  # specifying a `custom_loader_method`
+  custom_loader_method: steps.ingest.load_file_as_dataframe
+  # If the `spark_sql` `format` is specified, the `sql` entry is used to specify a SparkSQL
+  # statement that identifies the dataset to use
+  sql: SELECT * FROM delta.`{{INGEST_DATA_LOCATION}}`
+  # If the `delta` `format` is specified, you can also configure the Delta table `version` to read
+  # or the `timestamp` at which to read data
+  # version: 2
+  # timestamp: 2022-06-01T00:00:00.000Z
+steps:
+  preprocessing:
+    preprocess_method: steps.preprocessing.process_data
+  predict:
+    model_uri: "file:models/model"  # fix this
+    output_path: {{OUTPUT_DATA_LOCATION}}
+    output_format: {{OUTPUT_DATA_FORMAT|default('parquet')}}
