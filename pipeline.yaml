@@ -34,6 +34,6 @@ steps:
   preprocessing:
     preprocess_method: steps.preprocessing.process_data
   predict:
-    model_uri: "file:///models/model"  # fix this
+    model_uri: "models/model.pkl"
     output_path: {{OUTPUT_DATA_LOCATION}}
     output_format: {{OUTPUT_DATA_FORMAT|default('parquet')}}
