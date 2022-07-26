@@ -34,6 +34,18 @@ steps:
   preprocessing:
     preprocess_method: steps.preprocessing.process_data
   predict:
+    # The model URI for the model used to scored the input dataset. See the list of accepted
+    # model URIs here:
+    # https://www.mlflow.org/docs/latest/python_api/mlflow.pyfunc.html#mlflow.pyfunc.spark_udf
     model_uri: "models/model.pkl"
-    output_location: {{OUTPUT_DATA_LOCATION}}
+    # There are three available output formats:
+    # - `parquet` for writing to a parquet file.
+    # - `delta` for writing to a delta file.
+    # - `table` for saving the scored dataframe as a Spark table.
+    # Note that overwrites are not allowed at this time.
     output_format: {{OUTPUT_DATA_FORMAT|default('parquet')}}
+    # For the `parquet` and `delta` `output_format`s, use the `output_location` parameter to specify
+    # your desired path and file name (relative to where you run the pipeline).
+    # For the `table` `output_format`, use the `output_location` parameter to specify your desired
+    # Spark table name.
+    output_location: {{OUTPUT_DATA_LOCATION}}
