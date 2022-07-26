@@ -39,7 +39,7 @@ steps:
     # https://www.mlflow.org/docs/latest/python_api/mlflow.pyfunc.html#mlflow.pyfunc.spark_udf
     model_uri: "models/model.pkl"
     # There are three available output formats:
-    # - `parquet` for writing to parquet file.
+    # - `parquet` for writing to a parquet file.
     # - `delta` for writing to a delta file.
     # - `table` for saving the scored dataframe as a Spark table.
     # Note that overwrites are not allowed at this time.
